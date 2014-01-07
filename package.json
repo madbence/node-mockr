@@ -1,0 +1,35 @@
+{
+  "name": "mockr",
+  "version": "0.0.1",
+  "description": "Simple mock framework",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha -R spec test/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/madbence/node-mockr.git"
+  },
+  "keywords": [
+    "mock",
+    "test",
+    "mocha",
+    "unit",
+    "framework"
+  ],
+  "author": "Bence Dányi <madbence@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/madbence/node-mockr/issues"
+  },
+  "devDependencies": {
+    "mocha": "~1.16.2",
+    "should": "~2.1.1"
+  },
+  "dependencies": {
+    "mock-fun": "~1.1.2"
+  }
+}
