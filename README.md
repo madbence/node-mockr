@@ -17,7 +17,7 @@ coming...
 
 ```js
 // pass `before` and `after` hooks, and mockr handles the rest
-var mock = require('./')(beforeEach, afterEach);
+var mock = require('mockr')(beforeEach, afterEach);
 var should = require('should');
 
 var mylib = {
