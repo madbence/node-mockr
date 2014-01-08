@@ -1,20 +1,21 @@
 var override = require('mock-fun').override;
 var restore = require('mock-fun').restore;
 
-module.exports = function(before, after) {
-  before = before || noop;
-  after = after || noop;
-  return function mockr(obj, prop, def) {
-    var original = obj[prop];
-    if(typeof original !== 'function') {
-      throw new Error('You can override only functions');
-    }
-    before(override(obj, prop, makeAsyncMock(original, def)));
-    after(restore(obj, prop, true));
-    return function overrider(ret) {
-      override(obj, prop, makeAsyncMock(original, ret))();
+module.exports = function init(before, after, error) {
+  return function create(obj, prop, def) {
+    var mockr = new Mockr({
+      before: before,
+      after: after,
+      error: error,
+      obj: obj,
+      prop: prop,
+      def: def,
+    });
+    var overrider = function overrider(ret) {
+      mockr.override(ret);
     };
-
+    overrider._mockr = mockr;
+    return overrider;
   };
 };
 

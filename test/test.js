@@ -4,6 +4,40 @@ var Mockr = mockr.Mockr;
 var override = require('mock-fun').override;
 var restore = require('mock-fun').restore;
 
+describe('wrapper interface', function() {
+  describe('init', function() {
+    var b, bc, a, ac;
+    beforeEach(function() {
+      b = function() { bc = true; };
+      bc = false;
+    });
+    afterEach(function() {
+      a = function() { ac = true; };
+      ac = false;
+    });
+    it('should return create Function', function() {
+      mockr().should.be.an.instanceOf(Function);
+    });
+    it('should use installed hooks', function() {
+      var m = mockr(b, a);
+      m({a: function() {}}, 'a');
+      bc.should.be.true;
+      ac.should.be.true;
+    });
+  });
+  describe('create', function() {
+    var m = mockr();
+    it('should return overrider Function', function() {
+      var o = m({a: function() {}}, 'a');
+      var mo = o._mockr;
+      override(mo, 'override', function(a){ a.should.equal(1); })();
+      o.should.be.an.instanceOf(Function);
+      o(1);
+      mo.override.called.should.be.true;
+    });
+  });
+});
+
 describe('Mockr', function() {
   describe('#ctor', function() {
     var original = function() {};
