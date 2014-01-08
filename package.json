@@ -7,7 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha -R spec test/*"
+    "test": "mocha -R spec test/*",
+    "cover": "istanbul cover _mocha -- -R spec test/*",
+    "coveralls": "istanbul cover _mocha --report lcovonly -- -R spec test/* && cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -27,7 +29,9 @@
   },
   "devDependencies": {
     "mocha": "~1.16.2",
-    "should": "~2.1.1"
+    "should": "~2.1.1",
+    "istanbul": "~0.2.3",
+    "coveralls": "~2.6.1"
   },
   "dependencies": {
     "mock-fun": "~1.1.2"
