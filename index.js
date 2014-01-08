@@ -18,7 +18,17 @@ module.exports = function(before, after) {
   };
 };
 
-function noop() {}
+function Mockr(opts) {
+  var self = this;
+  this.before = opts.before || noop;
+  this.after = opts.after || noop;
+  this.error = opts.error || noop;
+  this.obj = opts.obj;
+  this.prop = opts.prop;
+  this.def = opts.def;
+  this.original = this.obj[this.prop];
+}
+
 
 function makeAsyncMock(original, ret) {
   if(typeof ret === 'function') {
@@ -32,4 +42,7 @@ function makeAsyncMock(original, ret) {
       cb(null, ret);
     }
   };
-}
+};
+function noop() {}
+
+module.exports.Mockr = Mockr;
