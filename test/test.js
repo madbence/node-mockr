@@ -68,4 +68,39 @@ describe('Mockr', function() {
       rc.should.be.true;
     });
   });
+  describe('#override', function() {
+    var original = function() {};
+    var obj = {
+      prop: original
+    };
+    var f = function() { return f; };
+    var m = new Mockr({ obj: obj, prop: 'prop' });
+    beforeEach(override(m, '_overrider', function() {}));
+    beforeEach(override(m, 'makeAsyncMock', f));
+    afterEach(restore(m, '_overrider', true));
+    afterEach(restore(m, 'makeAsyncMock', true));
+    it('should create mock function', function() {
+      override(m, 'makeAsyncMock', function(ret) { ret.should.be.equal(1); })();
+      m.override(1);
+      m.makeAsyncMock.called.should.be.true;
+    });
+    it('should call overrider', function() {
+      override(m, '_overrider', function(g) { g.should.equal(f); })();
+      m.override();
+      m._overrider.called.should.be.true;
+    });
+  });
+  describe('#restore', function() {
+    var original = function() {};
+    var obj = {
+      prop: original
+    };
+    var m = new Mockr({ obj: obj, prop: 'prop' });
+    it('should call restorer', function() {
+      override(m, '_restorer', function() {})();
+      m.restore();
+      m._restorer.called.should.be.true;
+      restore(m, '_restorer')();
+    });
+  });
 });

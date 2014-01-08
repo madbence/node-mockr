@@ -43,6 +43,13 @@ function Mockr(opts) {
   });
 }
 
+Mockr.prototype.override = function override(ret) {
+  this._overrider(this.makeAsyncMock(ret));
+};
+
+Mockr.prototype.restore = function restore() {
+  this._restorer();
+};
 
 function makeAsyncMock(original, ret) {
   if(typeof ret === 'function') {
