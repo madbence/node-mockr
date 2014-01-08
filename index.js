@@ -63,7 +63,7 @@ Mockr.prototype.makeAsyncMock = function(ret) {
     return ret;
   }
   return function() {
-    var cb = arguments[original.length-1];
+    var cb = arguments[self.original.length-1];
     if(ret instanceof Error) {
       cb(ret);
     } else {
