@@ -71,6 +71,12 @@ Mockr.prototype.makeAsyncMock = function(ret) {
     }
   };
 };
+
+Mockr.prototype.parseArgs = function parseArgs(fun) {
+  var args = /^function (\w+)?\((.*?)\)/;
+  return fun.toString().match(args)[2].split(', ');
+};
+
 function noop() {}
 
 module.exports.Mockr = Mockr;
