@@ -103,4 +103,55 @@ describe('Mockr', function() {
       restore(m, '_restorer')();
     });
   });
+  describe('#makeAsyncMock', function() {
+    var original = function(a, b, c) {};
+    var obj = {
+      prop: original
+    };
+    var m = new Mockr({ obj: obj, prop: 'prop' });
+    describe('without function', function() {
+      it('should create a function with the same arguments as the original', function() {
+        var f = m.makeAsyncMock(1);
+        var c = false
+        f(2, 3, function() {
+          c = true;
+        });
+        c.should.be.true;
+      });
+      describe('with value', function() {
+        it('should call the last argument with the return value', function() {
+          var f = m.makeAsyncMock(1);
+          f(2, 3, function(err, n) {
+            should.not.exist(err);
+            n.should.equal(1);
+          });
+        });
+      });
+      describe('with error', function() {
+        it('should call the last argument with error', function() {
+          var f = m.makeAsyncMock(new Error());
+          f(1, 2, function(err) {
+            should.exist(err);
+          });
+        });
+      });
+    });
+    describe('with function', function() {
+      m.error = function() { throw new Error(); };
+      it('should check arg count', function() {
+        (function() {
+          m.makeAsyncMock(function(a, b) {});
+        }).should.throw();
+      });
+      it('should check arg names', function() {
+        (function() {
+          m.makeAsyncMock(function(a, b, d) {});
+        }).should.throw();
+      });
+      it('should return the same function', function() {
+        var f = function(a, b, c) {};
+        m.makeAsyncMock(f).should.equal(f);
+      });
+    });
+  });
 });

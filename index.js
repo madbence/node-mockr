@@ -51,8 +51,14 @@ Mockr.prototype.restore = function restore() {
   this._restorer();
 };
 
-function makeAsyncMock(original, ret) {
+Mockr.prototype.makeAsyncMock = function(ret) {
+  var self = this;
   if(typeof ret === 'function') {
+    var originalArgs = this.parseArgs(this.original);
+    var mockArgs = this.parseArgs(ret);
+    if(originalArgs.length != mockArgs.length || originalArgs.some(function(arg, i) { return arg !== mockArgs[i]; })) {
+      this.error(new Error('Function ' + this.prop + '(' + originalArgs.join(', ') + ') does not match with mock(' + mockArgs.join(', ') + ')'));
+    }
     return ret;
   }
   return function() {
