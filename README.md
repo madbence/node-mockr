@@ -1,4 +1,4 @@
-node-mockr
+node-mockr [![Build Status](https://travis-ci.org/madbence/node-mockr.png)](https://travis-ci.org/madbence/node-mockr) [![Coverage Status](https://coveralls.io/repos/madbence/node-mockr/badge.png)](https://coveralls.io/r/madbence/node-mockr)
 ==========
 
 Simple mock framework
