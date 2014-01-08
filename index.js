@@ -27,6 +27,20 @@ function Mockr(opts) {
   this.prop = opts.prop;
   this.def = opts.def;
   this.original = this.obj[this.prop];
+
+  var overrider = opts.overrider || override;
+  var restorer = opts.restorer || restore;
+  this._overrider = overrider(this.obj, this.prop);
+  this._restorer = restorer(this.obj, this.prop, true);
+  if(typeof this.original !== 'function') {
+    throw new Error('You can override only functions');
+  }
+  this.before(function() {
+    self.override(self.def);
+  });
+  this.after(function() {
+    self.restore();
+  });
 }
 
 
