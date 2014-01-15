@@ -181,6 +181,9 @@ describe('Mockr', function() {
         (function() {
           m.makeAsyncMock(function(a, b, d) {});
         }).should.throw();
+        (function() {
+          m.makeAsyncMock(function( a, b, c ) {});
+        }).should.not.throw();
       });
       it('should return the same function', function() {
         var f = function(a, b, c) {};
